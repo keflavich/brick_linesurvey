@@ -119,7 +119,9 @@ for spw in spw_list:
             'threshold': '5sigma',
             'interactive': False,
             'pblimit': 0.2,
-            'nterms': 1
+            'nterms': 1,
+            'spw': spw,
+            'field': field,
            }
     impars['chanchunks'] = chanchunks
 
