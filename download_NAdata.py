@@ -14,6 +14,11 @@ for baseurl in ['https://bulk.cv.nrao.edu/almadata/proprietary/keflavich/X3a53',
                 'https://bulk.cv.nrao.edu/almadata/proprietary/keflavich/X3a63',
                 'https://bulk.cv.nrao.edu/almadata/proprietary/keflavich/X3a33']:
 
+    nm = baseurl.split("/")[-1]
+    if os.path.exists(f'{nm}_calibrated_final.ms.tgz'):
+        print(f"Skipped {baseurl} b/c it's done.")
+        continue
+
     alma = Alma()
     alma.cache_location='.'
     alma.login('keflavich')
@@ -30,7 +35,8 @@ for baseurl in ['https://bulk.cv.nrao.edu/almadata/proprietary/keflavich/X3a53',
 
     alma.download_files(urls)
 
-    nm = baseurl.split("/")[-1]
-
     if os.path.exists('calibrated_final.ms.tgz'):
-        shutil.move('calibrated_final.ms.tgz', f'{nm}_calibrated_final.ms.tgz')
+        if os.path.exists(f'{nm}_calibrated_final.ms.tgz'):
+            raise IOError("Already exists!!!!")
+        else:
+            shutil.move('calibrated_final.ms.tgz', f'{nm}_calibrated_final.ms.tgz')

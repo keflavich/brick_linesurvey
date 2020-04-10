@@ -70,6 +70,7 @@ field = 'BrickMaser'
 for spw in spw_list:
     restfreq = spwinfo[spw]['RefFreq']
     freqname = int(restfreq / 1e9)
+    logprint("SPW {spw} has rest frequency {restfreq} = {freqname}".format(**locals()))
 
     lineimagename = os.path.join(imaging_root,
                                  "BrickMaser_{0}_spw{1}".format(freqname,
