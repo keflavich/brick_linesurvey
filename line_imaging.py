@@ -63,6 +63,7 @@ logprint("Running on vis {0}".format(vis))
 ms.open(vis)
 spwinfo = ms.getspectralwindowinfo()
 spw_list = spwinfo.keys()
+logprint("SPWs are {0}".format(spw_list))
 
 field = 'BrickMaser'
 
