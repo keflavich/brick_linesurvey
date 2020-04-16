@@ -5,8 +5,9 @@ alma = Alma()
 rslt = alma.query({'project_code': '2019.1.00092.S'}, public=False, cache=False)
 print(rslt['Member ous id','QA2 Status'])
 
-#for mousid in rslt['Member ous id'][:-1]:
-for mousid in ['uid://A001/X1465/X3a53']:
+for mousid in rslt['Member ous id']:
+#for mousid in ['uid://A001/X1465/X3a53']:
+#for mousid in ['uid://A001/X1465/X3a57']:
     print(mousid)
     alma = Alma()
     alma.cache_location='.'
