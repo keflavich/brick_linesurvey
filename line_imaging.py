@@ -68,9 +68,12 @@ logprint("SPWs are {0}".format(spw_list))
 field = 'BrickMaser'
 
 for spw in spw_list:
-    restfreq = spwinfo[spw]['RefFreq']
-    freqname = int(restfreq / 1e9)
-    logprint("SPW {spw} has rest frequency {restfreq} = {freqname}".format(**locals()))
+    if spwinfo[spw]['ChanWidth'] < 0:
+        reference_frequency = spwinfo[spw]['RefFreq'] - spwinfo[spw]['ChanWidth']*spwinfo[spw]['NumChan']
+    else:
+        reference_frequency = spwinfo[spw]['RefFreq']
+    freqname = int(reference_frequency / 1e9)
+    logprint("SPW {spw} has rest frequency {reference_frequency} = {freqname}".format(**locals()))
 
     lineimagename = os.path.join(imaging_root,
                                  "BrickMaser_{0}_spw{1}".format(freqname,
@@ -96,7 +99,7 @@ for spw in spw_list:
     chanwidth = np.max([np.abs(
         effectiveResolutionAtFreq(vis,
                                   spw='{0}'.format(ii),
-                                  freq=restfreq*u.Hz,
+                                  freq=reference_frequency*u.Hz,
                                   kms=True).max()) for ii in
         spw_list])
     chanwidths.append(chanwidth)
