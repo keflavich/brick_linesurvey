@@ -7,6 +7,11 @@ import time
 
 dask = True
 
+if dask:
+    from dask.diagnostics import ProgressBar
+    pbar = ProgressBar()
+    pbar.register()
+
 for suffix in ("image.pbcor.fits",):
     for fn in glob.glob(f"BrickMaser*{suffix}"):
         t0 = time.time()
