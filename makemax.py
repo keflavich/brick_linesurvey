@@ -12,7 +12,7 @@ if dask:
     pbar = ProgressBar()
     pbar.register()
 
-for suffix in ("image.pbcor.fits",):
+for suffix in ("image.pbcor.fits", "image"):
     for fn in glob.glob(f"BrickMaser*{suffix}")+glob.glob(f"source_ab*{suffix}"):
         t0 = time.time()
         outf_ = fn.replace(suffix,"max.fits")

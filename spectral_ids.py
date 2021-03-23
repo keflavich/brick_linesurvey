@@ -25,7 +25,7 @@ def jtok_factors(beams, freqs):
     return factor
 
 
-for suffix in ('max', 'mean'):
+for suffix in ('mean', 'max'):
 
     results = []
     Ulines = []
@@ -71,15 +71,21 @@ for suffix in ('max', 'mean'):
                 peak_intensity = ssp.data.max()
                 tbl.add_column(Column(data=total_intensity, name='TotalIntensity'))
                 tbl.add_column(Column(data=peak_intensity, name='PeakIntensity'))
+                tbl.add_column(Column(data=mad, name='RMS'))
                 tbl.add_column(Column(data=u.Quantity((-(frq.to(u.GHz).value -
                                                          tbl['Freq']) / tbl['Freq']
                                                        * constants.c), u.km/u.s),
                                       name='Velocity'))
+                print(tbl.pprint(max_width=200))
                 results.append(tbl)
             else:
                 log.warning(f"Frequency {frq.to(u.GHz)} had no hits")
                 Ulines.append(frq)
 
-    match_table = table.unique(table.vstack(results))
+    match_table = table.vstack(results)
+    try:
+        match_table = table.unique(match_table)
+    except ValueError:
+        pass
     match_table.sort('Freq')
     match_table.write(f"line_fit_table_{suffix}.ipac", format='ascii.ipac', overwrite=True)
